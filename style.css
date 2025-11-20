@@ -1,0 +1,212 @@
+/* ===========================================
+   共同設定（手機最佳化）
+=========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: "Microsoft JhengHei", system-ui;
+  overflow: hidden;               /* 防止上下滑動 */
+  touch-action: manipulation;     /* 觸控更順 */
+  background: #000;               /* 防止跳白邊 */
+}
+
+.hidden { display: none; }
+
+.screen {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* ===========================================
+   永久背景（會滾動）
+=========================================== */
+#global-bg {
+  position: fixed;
+  inset: 0;
+  background-image: url("Gemini_Generated_Image_yefmyuyefmyuyefm.png");
+  background-repeat: repeat-x;
+  background-size: contain;
+  background-position: bottom;
+  z-index: -10;
+  image-rendering: pixelated;
+  animation: scroll-bg 10s linear infinite;
+}
+
+@keyframes scroll-bg {
+  from { background-position-x: 0; }
+  to   { background-position-x: -1024px; }
+}
+
+/* ===========================================
+   首頁登入框
+=========================================== */
+.start-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.pixel-panel {
+  background: #222;
+  color: #eee;
+  padding: 24px 32px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px #111, 0 0 0 8px #444;
+  text-align: center;
+}
+
+.game-title {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.pixel-btn {
+  padding: 10px 30px;
+  font-size: 18px;
+  color: #fff;
+  background: #555;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 0 3px #111;
+}
+
+.pixel-btn:active {
+  transform: translateY(2px);
+}
+
+/* ===========================================
+   遊戲世界（手機比例優化）
+=========================================== */
+#game-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+#game-world {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;     
+  touch-action: none;
+}
+
+/* 主角：自動依螢幕縮放 */
+#player {
+  position: absolute;
+  left: 10vw;              /* 手機版使用相對位置 */
+  bottom: 22vh;            /* 高度比例化 */
+  height: 20vh;            /* 自動縮放 */
+  image-rendering: pixelated;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ===========================================
+   障礙物（自動縮放）
+=========================================== */
+#obstacle-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.obstacle {
+  position: absolute;
+  bottom: 22vh;
+  height: 18vh;           /* 自動縮放 */
+  image-rendering: pixelated;
+}
+
+.obstacle.low { height: 14vh; }
+.obstacle.high { height: 22vh; }
+
+/* ===========================================
+   分數 UI（手機更不擋視線）
+=========================================== */
+#score-panel {
+  position: absolute;
+  top: 2vh;
+  left: 4vw;
+  background: rgba(0,0,0,0.5);
+  padding: 6px 12px;
+  color: white;
+  border-radius: 4px;
+  z-index: 50;
+  font-size: 18px;
+}
+
+/* 飄起分數 */
+.float-score {
+  position: absolute;
+  color: yellow;
+  font-weight: bold;
+  font-size: 25px;
+  text-shadow: 0 0 5px #000;
+  animation: float-up 1s ease-out forwards;
+}
+
+@keyframes float-up {
+  from { opacity: 1; transform: translate(-50%, 0); }
+  to   { opacity: 0; transform: translate(-50%, -50px); }
+}
+
+/* ===========================================
+   Game Over 掃描動畫
+=========================================== */
+#game-over-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.scan-layer {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0.85;
+  clip-path: inset(0 0 100% 0);
+}
+
+#game-over-overlay.active .scan-layer {
+  animation: scan-down 1.5s steps(10) forwards;
+}
+
+@keyframes scan-down {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+.game-over-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#game-over-overlay.show-text .game-over-text {
+  opacity: 1;
+}
+
+.go-title {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
